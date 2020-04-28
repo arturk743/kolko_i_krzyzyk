@@ -1,4 +1,5 @@
 #utworzyc klase player, rozwiaze problem zmiennych globalnych
+from time import sleep
 
 import pygame
 from grid import Grid
@@ -71,6 +72,8 @@ def game(): #zmienic na play
         clock.tick(20)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                sock.shutdown(socket.SHUT_RDWR)
+                sock.close()
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN and not grid.game_over:
                 if pygame.mouse.get_pressed()[0]:
@@ -80,7 +83,7 @@ def game(): #zmienic na play
                         grid.get_mouse(cellX, cellY, player)
                         if grid.game_over:
                             playing = 'False'
-                        send_data = '{}-{}-{}-{}-{}'.format('2',cellX, cellY, 'yourturn', playing).encode()
+                        send_data = '{}-{}-{}-{}-{}'.format('2', cellX, cellY, 'yourturn', playing).encode()
                         sock.send(send_data)
                         turn = False
 
