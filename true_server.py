@@ -44,7 +44,7 @@ def game_communication(connection1, connection2):
             data = receive_data(connection1)
             if len(data) == 0:
                 print("Exception peer close connection")
-                break
+                exit(4)
             print("Receive data from 1 : " + data.decode())
         except:
             traceback.print_exc()
@@ -59,7 +59,7 @@ def game_communication(connection1, connection2):
             data = receive_data(connection2)
             if len(data) == 0:
                 print("Exception peer close connection")
-                break
+                exit(4)
             print("Receive data from 2 : " + data.decode())
         except:
             traceback.print_exc()
@@ -73,7 +73,7 @@ def waiting_for_connection():
     conn2, addr1 = sock.accept()  # wait for a connection, it is a blocking method
     print('client2 is connected')
     send_config_parameters2(conn2)
-    print('Create thread')
+    print('Creating thread')
     create_thread(game_communication, conn1, conn2)
 
 
@@ -95,7 +95,6 @@ if __name__ == "__main__":
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind((HOST, PORT))
     sock.listen(100)
-
-    waiting_for_connection()
-    sleep(5000)
+    while True:
+        waiting_for_connection()
     sock.close()

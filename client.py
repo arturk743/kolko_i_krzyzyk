@@ -15,6 +15,8 @@ player = "O"
 turn = False
 playing = 'True'
 sock = None
+try_again_me = False
+try_again_opponent = False
 
 
 def create_thread(target):
@@ -24,7 +26,7 @@ def create_thread(target):
 
 
 def receive_data():
-    global turn, player, sock, playing, grid
+    global turn, player, sock, playing, grid, try_again_me, try_again_opponent
     while True:
         data = sock.recv(1024).decode()  # receive data from the server, it is a blocking method
         data = data.split('-')
@@ -49,13 +51,11 @@ def receive_data():
                     grid.set_cell_value(x, y, 'O')
         elif data[0] == '3':
             print("Get message type : " + data[0])
-            if data[1] == True:
-                grid.clear_grid()
-                grid.game_over = False
+            if data[1]:
                 playing = 'True'
-                if data[2] == 'True':
-                    send_data = '{}-{}-{}'.format('3', 'True', 'False').encode()
-                    sock.send(send_data)
+                grid.clear_grid()
+            else:
+                print("Koniec gry")
 
 
 
@@ -89,7 +89,7 @@ def game(): #zmienic na play
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and grid.game_over:
-                    send_data = '{}-{}-{}'.format('3', 'True', 'True').encode()
+                    send_data = '{}-{}'.format('3', 'True').encode()
                     sock.send(send_data)
                 elif event.key == pygame.K_ESCAPE:
                     # running = False
@@ -114,7 +114,10 @@ def button(msg, x, y, width, height, inactive_color, active_color, action=None):
         pygame.draw.rect(surface, active_color, (x, y, width, height))
 
         if click[0] == 1 and action == "restart" and grid.game_over:
-            restart()
+            grid.game_over = False
+            # restart()
+            send_data = '{}-{}'.format('3', 'True').encode()
+            sock.send(send_data)
         elif click[0] == 1 and action == "exit_game" and grid.game_over:
             exit_game()
     else:
