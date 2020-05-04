@@ -1,37 +1,22 @@
 import socket
 import traceback
-import syslog
+
 
 class ServerCommunication:
 
     def create_socket(self, host, port):
-        try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            sock.bind((host, port))
-            sock.listen(100)
-            return sock
-        except Exception as ex:
-            syslog.syslog(syslog.LOG_ERR,
-                          "failed to socekt (%s)" %
-                          str(ex))
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sock.bind((host, port))
+        sock.listen(100)
+        return sock
 
     def receive_data(self, connection):
-        try:
-            data = connection.recv(1024)  # receive data from the client, it is a blocking method
-            return data
-        except Exception as ex:
-            syslog.syslog(syslog.LOG_ERR,
-                          "failed to receive data archives request event (%s)" %
-                          str(ex))
+        data = connection.recv(1024)  # receive data from the client, it is a blocking method
+        return data
 
     def send_data(self, connection, data):
-        try:
-            connection.send(data)
-        except Exception as ex:
-            syslog.syslog(syslog.LOG_ERR,
-                          "failed to send data archives request event (%s)" %
-                          str(ex))
+        connection.send(data)
 
     def send_config_parameters_player1(self, connection):
         data = '{}-{}-{}'.format('1', 'O', 'False').encode()
