@@ -19,15 +19,14 @@ class Communication:
             pass
         membership = socket.inet_aton(MCAST_GRP) + socket.inet_aton(BIND_ADDR)
         recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
-
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
 
 
         send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
         while True:
-            recv_socket.recv(1024)
-            print("Otrzymano wiadomosc")
+            data = recv_socket.recv(1024)
+            print("Otrzymano wiadomosc " + data.decode())
             send_socket.sendto(b'Hello!', (MCAST_GRP, MCAST_PORT))
 
     def client_multicast_communication(self):
@@ -36,13 +35,9 @@ class Communication:
             recv_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         except AttributeError:
             pass
-        recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
-        recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 1)
-
+        membership = socket.inet_aton(MCAST_GRP) + socket.inet_aton(BIND_ADDR)
+        recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
-        host = socket.gethostbyname(socket.gethostname())
-        recv_socket.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
-                               socket.inet_aton(MCAST_GRP) + socket.inet_aton(host))
 
         create_thread(self.client__multicast_search_server())
 
@@ -61,6 +56,7 @@ class Communication:
             send_socket.sendto(b'Searching...', (MCAST_GRP, MCAST_PORT))
             print("Send packet")
             sleep(5)
+        send_socket.close()
 
 
 def create_thread(target):
