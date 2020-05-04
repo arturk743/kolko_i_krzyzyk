@@ -26,8 +26,8 @@ class Communication:
 
         while True:
             data = recv_socket.recv(1024)
-            print("Otrzymano wiadomosc " + data.decode())
-            send_socket.sendto(b'Hello!', (MCAST_GRP, MCAST_PORT))
+            if data == "Searching...":
+                send_socket.sendto(b'Hello!', (MCAST_GRP, MCAST_PORT))
 
     def client_multicast_communication(self):
         recv_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
