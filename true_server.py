@@ -1,4 +1,10 @@
 import threading
+
+#import daemon
+import time
+from logging import error
+
+import syslog
 from server_communication import ServerCommunication
 
 HOST = '127.0.0.1'
@@ -6,6 +12,7 @@ PORT = 65432
 
 
 class Server:
+    syslog.syslog('Processing started')
 
     def __init__(self):
         self.server_communication = ServerCommunication()
@@ -26,10 +33,17 @@ class Server:
 
 
 def create_thread(target, connection1, connection2):
-    thread = threading.Thread(target=target, args=(connection1, connection2,))
-    thread.daemon = True
-    thread.start()
+    try:
+        thread = threading.Thread(target=target, args=(connection1, connection2,))
+        thread.daemon = True
+        thread.start()
+
+    except Exception as ex:
+        syslog.syslog(syslog.LOG_ERR,
+                      "Error creating thread")
 
 
 if __name__ == "__main__":
-    server = Server()
+    #with daemon.DaemonContext():
+        server = Server()
+
