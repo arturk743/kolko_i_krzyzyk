@@ -1,7 +1,6 @@
 import socket
 import traceback
 
-
 class ServerCommunication:
 
     def create_socket(self, host, port):

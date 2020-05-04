@@ -3,6 +3,7 @@ from grid import Grid
 import threading
 import os
 import socket
+from communication import Communication
 
 
 class Player:
@@ -20,11 +21,10 @@ class Player:
     def __init__(self):
         self.turn = False
         self.surface = create_board()
+        self.HOST = Communication().client_multicast_communication()
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((self.HOST, self.PORT))
-
         self.create_thread(self.receive_data)
-
         self.game()
 
     def create_thread(self, target):
@@ -131,8 +131,6 @@ class Player:
         playing = 'True'
 
     def exit_game(self):
-        # global running
-        # running = False
         self.sock.close()
         exit(10)
 
