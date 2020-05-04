@@ -50,5 +50,5 @@ def create_thread(target):
 
 
 if __name__ == "__main__":
-    server = Server()
-
+    # server = Server()
+    Communication().server_multicast_communication()

@@ -1,8 +1,10 @@
 import socket
+import struct
 import threading
 from time import sleep
 
 MCAST_GRP = '224.1.1.1'
+BIND_ADDR = '0.0.0.0'
 MCAST_PORT = 5007
 
 
@@ -15,19 +17,17 @@ class Communication:
             recv_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         except AttributeError:
             pass
-        recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
-        recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 1)
+        membership = socket.inet_aton(MCAST_GRP) + socket.inet_aton(BIND_ADDR)
+        recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
 
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
-        host = socket.gethostbyname(socket.gethostname())
-        recv_socket.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
-                               socket.inet_aton(MCAST_GRP) + socket.inet_aton(host))
+
 
         send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        send_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
 
         while True:
             recv_socket.recv(1024)
+            print("Otrzymano wiadomosc")
             send_socket.sendto(b'Hello!', (MCAST_GRP, MCAST_PORT))
 
     def client_multicast_communication(self):
@@ -55,9 +55,6 @@ class Communication:
 
         return host
 
-
-
-
     def client__multicast_search_server(self):
         while not self.stop_thread:
             send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
@@ -65,8 +62,8 @@ class Communication:
             print("Send packet")
             sleep(5)
 
+
 def create_thread(target):
     thread = threading.Thread(target=target)
     thread.daemon = True
     thread.start()
-
