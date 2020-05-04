@@ -43,6 +43,7 @@ class Communication:
 
         while True:
             data = recv_socket.recv(1024).decode()
+            print(data)
             if data == "Hello!":
                 host = recv_socket.getpeername()
                 print(host)
