@@ -63,6 +63,5 @@ class Communication:
 
 def create_thread(target):
     thread = threading.Thread(target=target)
-    thread.daemon = True
     thread.start()
     return thread
