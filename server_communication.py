@@ -1,5 +1,7 @@
 import socket
 import traceback
+from time import sleep
+
 
 class ServerCommunication:
 
@@ -34,6 +36,7 @@ class ServerCommunication:
                 print("Send data to 1 : " + data.decode())
             except:
                 self.send_data(connection2, '4-True'.encode())
+                sleep(2)
                 connection1.close()
                 connection2.close()
                 traceback.print_exc()
@@ -47,6 +50,7 @@ class ServerCommunication:
                 print("Receive data from 1 : " + data.decode())
             except:
                 self.send_data(connection2, '4-True'.encode())
+                sleep(2)
                 connection1.close()
                 connection2.close()
                 traceback.print_exc()
@@ -56,6 +60,7 @@ class ServerCommunication:
                 print("Send data to 2 : " + data.decode())
             except:
                 self.send_data(connection1, '4-True'.encode())
+                sleep(2)
                 connection1.close()
                 connection2.close()
                 traceback.print_exc()
@@ -68,6 +73,7 @@ class ServerCommunication:
                 print("Receive data from 2 : " + data.decode())
             except:
                 self.send_data(connection1, '4-True'.encode())
+                sleep(2)
                 connection1.close()
                 connection2.close()
                 traceback.print_exc()
