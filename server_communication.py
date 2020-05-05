@@ -46,7 +46,6 @@ class ServerCommunication:
                 data = self.receive_data(connection1)
                 if len(data) == 0:
                     print("Exception peer close connection")
-                    exit(4)
                 print("Receive data from 1 : " + data.decode())
             except:
                 self.send_data(connection2, '4-True'.encode())
@@ -69,7 +68,6 @@ class ServerCommunication:
                 data = self.receive_data(connection2)
                 if len(data) == 0:
                     print("Exception peer close connection")
-                    exit(4)
                 print("Receive data from 2 : " + data.decode())
             except:
                 self.send_data(connection1, '4-True'.encode())
