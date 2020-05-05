@@ -42,6 +42,7 @@ class Communication:
         create_thread(self.client_multicast_search_server())
 
         while True:
+            print("Waiting")
             data = recv_socket.recv(1024)
             if data.decode() == "Hello!":
                 host = recv_socket.getpeername()
