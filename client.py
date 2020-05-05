@@ -46,6 +46,7 @@ class Player:
     def receive_data(self):
         while True:
             data = self.sock.recv(1024).decode()  # receive data from the server, it is a blocking method
+            print(data)
             data = data.split('-')
             if data[0] == '1':
                 print("Get message type : " + data[0])
