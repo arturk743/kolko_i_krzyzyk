@@ -77,7 +77,7 @@ class Player:
             elif data[0] == '4':
                 print("Get message type : " + data[0])
                 if data[1] == 'True':
-                    self.setup()
+                    self.resetup()
 
     def game(self):  # zmienic na play
 
