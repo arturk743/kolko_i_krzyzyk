@@ -43,15 +43,13 @@ class Communication:
         thread.start()
         while True:
             print("Waiting")
-            data = recv_socket.recv(1024)
+            data, addr = recv_socket.recvfrom(1024)
             if data.decode() == "Hello!":
-                host = recv_socket.getpeername()
-                print(host)
                 self.stop_thread = True
-                print("Success" + host)
+                print("Success" + addr)
                 break
         thread.join()
-        return host
+        return addr
 
     def client_multicast_search_server(self):
         while not self.stop_thread:
