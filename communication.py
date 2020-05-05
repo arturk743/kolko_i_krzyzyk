@@ -46,7 +46,7 @@ class Communication:
             data, addr = recv_socket.recvfrom(1024)
             if data.decode() == "Hello!":
                 self.stop_thread = True
-                print("Success" + addr)
+                print("Success" + addr[0])
                 break
         thread.join()
         return addr
