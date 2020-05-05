@@ -46,6 +46,7 @@ class Communication:
         while True:
             print("Waiting")
             data, addr = recv_socket.recvfrom(1024)
+            print("Data: " + data.decode())
             if data.decode() == "Hello!":
                 self.stop_thread = True
                 print("Success" + addr[0])
