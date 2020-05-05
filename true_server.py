@@ -7,7 +7,7 @@ from communication import Communication
 from server_communication import ServerCommunication
 
 
-HOST = '127.0.0.1'
+HOST = '172.16.184.100'
 PORT = 5008
 
 
