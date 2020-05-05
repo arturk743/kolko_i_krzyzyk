@@ -42,18 +42,17 @@ class ServerCommunication:
                 traceback.print_exc()
                 exit(2)
 
-            try:
-                data = self.receive_data(connection1)
-                if len(data) == 0:
-                    print("Exception peer close connection")
-                print("Receive data from 1 : " + data.decode())
-            except:
+            data = self.receive_data(connection1)
+            if len(data) == 0:
+                print("Exception peer close connection")
                 self.send_data(connection2, '4-True'.encode())
                 sleep(2)
                 connection1.close()
                 connection2.close()
                 traceback.print_exc()
                 exit(3)
+            print("Receive data from 1 : " + data.decode())
+
             try:
                 self.send_data(connection2, data)
                 print("Send data to 2 : " + data.decode())
@@ -64,15 +63,16 @@ class ServerCommunication:
                 connection2.close()
                 traceback.print_exc()
                 exit(4)
-            try:
-                data = self.receive_data(connection2)
-                if len(data) == 0:
-                    print("Exception peer close connection")
-                print("Receive data from 2 : " + data.decode())
-            except:
+
+            data = self.receive_data(connection2)
+            if len(data) == 0:
+                print("Exception peer close connection")
                 self.send_data(connection1, '4-True'.encode())
                 sleep(2)
                 connection1.close()
                 connection2.close()
                 traceback.print_exc()
                 exit(5)
+            print("Receive data from 2 : " + data.decode())
+
+
