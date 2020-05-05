@@ -79,6 +79,8 @@ class Player:
                         if self.turn and not self.grid.game_over:
                             pos = pygame.mouse.get_pos()
                             cellX, cellY = pos[0] // 200, pos[1] // 200
+                            if cellX > 2 or cellY > 2:
+                                continue
                             self.grid.get_mouse(cellX, cellY, self.player)
                             if self.grid.game_over:
                                 self.playing = 'False'
