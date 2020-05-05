@@ -19,6 +19,7 @@ class Communication:
             pass
         membership = socket.inet_aton(MCAST_GRP) + socket.inet_aton(BIND_ADDR)
         recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
+        recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
 
 
@@ -37,6 +38,7 @@ class Communication:
             pass
         membership = socket.inet_aton(MCAST_GRP) + socket.inet_aton(BIND_ADDR)
         recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
+        recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
 
         thread = Thread(target=self.client_multicast_search_server, args=())
@@ -49,7 +51,7 @@ class Communication:
                 print("Success" + addr[0])
                 break
         thread.join()
-        return addr
+        return addr[0]
 
     def client_multicast_search_server(self):
         while not self.stop_thread:
