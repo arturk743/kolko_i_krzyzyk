@@ -39,9 +39,8 @@ class Communication:
         recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
 
-        thread = Thread(target=self.client_multicast_search_server())
+        thread = Thread(target=self.client_multicast_search_server, args=())
         thread.start()
-
         while True:
             print("Waiting")
             data = recv_socket.recv(1024)
@@ -49,6 +48,7 @@ class Communication:
                 host = recv_socket.getpeername()
                 print(host)
                 self.stop_thread = True
+                print("Success" + host)
                 break
         thread.join()
         return host
