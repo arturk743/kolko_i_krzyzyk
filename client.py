@@ -8,7 +8,7 @@ from communication import Communication
 
 class Player:
     HOST = '127.0.0.1'
-    PORT = 65432
+    PORT = 5008
     grid = Grid()
     running = True
     player = "O"
