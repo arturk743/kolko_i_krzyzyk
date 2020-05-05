@@ -60,5 +60,5 @@ class Communication:
             send_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)
             send_socket.sendto(b'Searching...', (MCAST_GRP, MCAST_PORT))
             print("Send packet")
-            sleep(5)
+            sleep(2)
         send_socket.close()

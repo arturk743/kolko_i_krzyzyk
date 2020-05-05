@@ -15,7 +15,7 @@ class Server:
 
     def __init__(self):
         self.server_communication = ServerCommunication()
-        create_thread(Communication().server_multicast_communication)
+        create_thread2(Communication().server_multicast_communication)
         self.sock = self.server_communication.create_socket(HOST, PORT)
         while True:
             self.waiting_for_connection()
@@ -43,12 +43,12 @@ def create_thread(target, connection1, connection2):
                       "Error creating thread")
 
 
-def create_thread(target):
-    thread = threading.Thread(target=target)
+def create_thread2(target):
+    thread = threading.Thread(target=target, args=())
     thread.daemon = True
     thread.start()
 
 
 if __name__ == "__main__":
-    # server = Server()
-    Communication().server_multicast_communication()
+    server = Server()
+    # Communication().server_multicast_communication()

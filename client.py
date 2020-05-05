@@ -149,5 +149,5 @@ def create_board():
 
 
 if __name__ == "__main__":
-    # player = Player()
-    Communication().client_multicast_communication()
+    player = Player()
+    # Communication().client_multicast_communication()
