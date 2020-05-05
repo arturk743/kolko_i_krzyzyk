@@ -1,6 +1,6 @@
 import socket
 import struct
-import threading
+from threading import Thread
 from time import sleep
 
 MCAST_GRP = '224.1.1.1'
@@ -39,7 +39,8 @@ class Communication:
         recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
 
-        create_thread(self.client_multicast_search_server())
+        thread = Thread(target=self.client_multicast_search_server())
+        thread.start()
 
         while True:
             print("Waiting")
@@ -49,6 +50,7 @@ class Communication:
                 print(host)
                 self.stop_thread = True
                 break
+        thread.join()
         return host
 
     def client_multicast_search_server(self):
@@ -58,9 +60,3 @@ class Communication:
             print("Send packet")
             sleep(5)
         send_socket.close()
-
-
-def create_thread(target):
-    thread = threading.Thread(target=target)
-    thread.daemon = True
-    thread.start()
