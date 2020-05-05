@@ -1,7 +1,7 @@
 import socket
 import struct
 import threading
-from time import sleep
+from asyncio import sleep
 
 MCAST_GRP = '224.1.1.1'
 BIND_ADDR = '0.0.0.0'
@@ -39,7 +39,7 @@ class Communication:
         recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
 
-        create_thread(self.client__multicast_search_server())
+        create_thread(self.client_multicast_search_server())
 
         while True:
             data = recv_socket.recv(1024)
@@ -50,7 +50,7 @@ class Communication:
                 break
         return host
 
-    def client__multicast_search_server(self):
+    def client_multicast_search_server(self):
         while not self.stop_thread:
             send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
             send_socket.sendto(b'Searching...', (MCAST_GRP, MCAST_PORT))
