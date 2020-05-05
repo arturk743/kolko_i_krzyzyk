@@ -24,6 +24,7 @@ class Communication:
 
 
         send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        send_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)
 
         while True:
             data = recv_socket.recv(1024)
@@ -38,7 +39,6 @@ class Communication:
             pass
         membership = socket.inet_aton(MCAST_GRP) + socket.inet_aton(BIND_ADDR)
         recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
-        recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
 
         thread = Thread(target=self.client_multicast_search_server, args=())
@@ -57,6 +57,7 @@ class Communication:
     def client_multicast_search_server(self):
         while not self.stop_thread:
             send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+            send_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)
             send_socket.sendto(b'Searching...', (MCAST_GRP, MCAST_PORT))
             print("Send packet")
             sleep(5)
