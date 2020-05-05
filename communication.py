@@ -39,7 +39,7 @@ class Communication:
         recv_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership)
         recv_socket.bind((MCAST_GRP, MCAST_PORT))
 
-        thread = create_thread(self.client__multicast_search_server())
+        create_thread(self.client__multicast_search_server())
 
         while True:
             data = recv_socket.recv(1024)
@@ -48,7 +48,6 @@ class Communication:
                 print(host)
                 self.stop_thread = True
                 break
-        thread.join()
         return host
 
     def client__multicast_search_server(self):
@@ -63,4 +62,3 @@ class Communication:
 def create_thread(target):
     thread = threading.Thread(target=target)
     thread.start()
-    return thread
