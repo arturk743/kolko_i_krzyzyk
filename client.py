@@ -21,8 +21,8 @@ class Player:
     def __init__(self):
         self.turn = False
         self.surface = create_board()
-        # self.HOST = str(Communication().client_multicast_communication())
-        # print(self.HOST)
+        self.HOST = str(Communication().client_multicast_communication())
+        print(self.HOST)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((self.HOST, self.PORT))
         self.create_thread(self.receive_data)
