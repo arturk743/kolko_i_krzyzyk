@@ -1,7 +1,7 @@
 import socket
 import struct
 import threading
-from asyncio import sleep
+from time import sleep
 
 MCAST_GRP = '224.1.1.1'
 BIND_ADDR = '0.0.0.0'
@@ -61,4 +61,5 @@ class Communication:
 
 def create_thread(target):
     thread = threading.Thread(target=target)
+    thread.daemon = True
     thread.start()
