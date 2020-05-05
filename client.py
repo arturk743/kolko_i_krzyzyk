@@ -29,7 +29,7 @@ class Player:
         self.game()
 
     def create_thread(self, target):
-        thread = threading.Thread(target=target)
+        thread = threading.Thread(target=target, args=())
         thread.daemon = True
         thread.start()
 
