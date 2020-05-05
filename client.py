@@ -28,6 +28,16 @@ class Player:
         self.create_thread(self.receive_data)
         self.game()
 
+    def resetup(self):
+        self.turn = False
+        self.surface = create_board()
+        self.HOST = str(Communication().client_multicast_communication())
+        print(self.HOST)
+        self.sock.close()
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect((self.HOST, self.PORT))
+        self.game()
+
     def create_thread(self, target):
         thread = threading.Thread(target=target, args=())
         thread.daemon = True
@@ -63,6 +73,10 @@ class Player:
                     self.grid.clear_grid()
                 else:
                     print("Koniec gry")
+            elif data[0] == '4':
+                print("Get message type : " + data[0])
+                if data[1] == 'True':
+                    self.setup()
 
     def game(self):  # zmienic na play
 

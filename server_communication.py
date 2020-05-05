@@ -33,6 +33,9 @@ class ServerCommunication:
                 self.send_data(connection1, data)
                 print("Send data to 1 : " + data.decode())
             except:
+                self.send_data(connection2, '4-True'.encode())
+                connection1.close()
+                connection2.close()
                 traceback.print_exc()
                 exit(2)
 
@@ -43,12 +46,18 @@ class ServerCommunication:
                     exit(4)
                 print("Receive data from 1 : " + data.decode())
             except:
+                self.send_data(connection2, '4-True'.encode())
+                connection1.close()
+                connection2.close()
                 traceback.print_exc()
                 exit(3)
             try:
                 self.send_data(connection2, data)
                 print("Send data to 2 : " + data.decode())
             except:
+                self.send_data(connection1, '4-True'.encode())
+                connection1.close()
+                connection2.close()
                 traceback.print_exc()
                 exit(4)
             try:
@@ -58,5 +67,8 @@ class ServerCommunication:
                     exit(4)
                 print("Receive data from 2 : " + data.decode())
             except:
+                self.send_data(connection1, '4-True'.encode())
+                connection1.close()
+                connection2.close()
                 traceback.print_exc()
                 exit(5)
