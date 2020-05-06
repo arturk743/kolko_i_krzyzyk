@@ -40,15 +40,16 @@ class Player:
 
     def create_thread(self, target):
         thread = threading.Thread(target=target, args=())
-        thread.daemon = True
+        thread.daemon = False
         thread.start()
 
     def receive_data(self):
         while True:
             data = self.sock.recv(1024).decode()  # receive data from the server, it is a blocking method
             if len(data) == 0:
-                self.resetup()
-                continue
+                self.create_thread(Player)
+                self.running = False
+                break
             print(data)
             data = data.split('-')
             if data[0] == '1':
@@ -80,7 +81,9 @@ class Player:
             elif data[0] == '4':
                 print("Get message type : " + data[0])
                 if data[1] == 'True':
-                    self.resetup()
+                    self.create_thread(Player)
+                    self.running = False
+                    break
 
     def game(self):  # zmienic na play
 
