@@ -23,6 +23,7 @@ class Player:
             self.setup()
             if not self.repeat:
                 self.surface.fill((255, 255, 255))
+                pygame.display.flip()
                 break
 
     def setup(self):
