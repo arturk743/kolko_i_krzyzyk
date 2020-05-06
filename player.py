@@ -3,19 +3,15 @@ from grid import Grid
 import threading
 import os
 import socket
-from communication import Communication
+from communication.multicast import Multicast, RECEIVE_BUFF
+import communication.unicast as ucast_communication
 
 
 class Player:
-    HOST = '127.0.0.1'
     PORT = 5008
-    running = True
     player = "O"
     turn = False
     playing = 'True'
-    sock = None
-    try_again_me = False
-    try_again_opponent = False
 
     def __init__(self):
         while True:
@@ -31,8 +27,7 @@ class Player:
         self.turn = False
         self.grid = Grid()
         self.surface = create_board()
-        self.HOST = str(Communication().client_multicast_communication())
-        print(self.HOST)
+        self.HOST = str(Multicast().client_communication())
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((self.HOST, self.PORT))
         self.create_thread(self.receive_data)
@@ -45,7 +40,7 @@ class Player:
 
     def receive_data(self):
         while True:
-            data = self.sock.recv(1024).decode()  # receive data from the server, it is a blocking method
+            data = self.sock.recv(RECEIVE_BUFF).decode()  # receive data from the server, it is a blocking method
             if len(data) == 0:
                 print("Tworze nowego gracza")
                 self.repeat = True
@@ -140,7 +135,6 @@ class Player:
 
             if click[0] == 1 and action == "restart" and self.grid.game_over:
                 self.grid.game_over = False
-                # restart()
                 send_data = '{}-{}'.format('3', 'True').encode()
                 self.sock.send(send_data)
             elif click[0] == 1 and action == "exit_game":
@@ -153,12 +147,6 @@ class Player:
         textRect.center = ((x + (width / 2)), (y + (height / 2)))
         self.surface.blit(textSurf, textRect)
 
-    def restart(self):
-        global playing
-        self.grid.clear_grid()
-        self.grid.game_over = False
-        playing = 'True'
-
     def exit_game(self):
         self.sock.close()
         exit(10)
@@ -169,7 +157,7 @@ class Player:
 
 
 def create_board():
-    os.environ['SDL_VIDEO_WINDOW_POS'] = '850,100'
+    os.environ['SDL_VIDEO_WINDOW_POS'] = '0,0'
     surface = pygame.display.set_mode((600, 700))
     surface.fill((255, 255, 255))
     pygame.init()
@@ -179,4 +167,4 @@ def create_board():
 
 if __name__ == "__main__":
     player = Player()
-    # Communication().client_multicast_communication()
+
