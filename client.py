@@ -47,7 +47,8 @@ class Player:
         while True:
             try:
                 data = self.sock.recv(1024).decode()  # receive data from the server, it is a blocking method
-            except BrokenPipeError:
+            except BrokenPipeError as e:
+                print(e.strerror)
                 self.resetup()
                 continue
             print(data)

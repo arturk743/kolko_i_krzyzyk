@@ -52,6 +52,7 @@ class Communication:
                 print("Success" + addr[0])
                 break
         thread.join()
+        recv_socket.close()
         return addr[0]
 
     def client_multicast_search_server(self):
