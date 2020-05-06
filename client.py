@@ -40,7 +40,7 @@ class Player:
 
     def create_thread(self, target):
         thread = threading.Thread(target=target, args=())
-        thread.daemon = False
+        thread.daemon = True
         thread.start()
 
     def receive_data(self):
