@@ -47,7 +47,8 @@ class Player:
         while True:
             data = self.sock.recv(1024).decode()  # receive data from the server, it is a blocking method
             if len(data) == 0:
-                self.create_thread(Player)
+                print("Tworze nowego gracza")
+                self.repeat = True
                 self.running = False
                 break
             print(data)
