@@ -22,6 +22,7 @@ class Player:
                 break
 
     def setup(self):
+        self.playing = 'True'
         self.repeat = False
         self.running = True
         self.turn = False
