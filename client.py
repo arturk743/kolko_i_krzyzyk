@@ -9,7 +9,6 @@ from communication import Communication
 class Player:
     HOST = '127.0.0.1'
     PORT = 5008
-    grid = Grid()
     running = True
     player = "O"
     turn = False
@@ -30,6 +29,7 @@ class Player:
         self.repeat = False
         self.running = True
         self.turn = False
+        self.grid = Grid()
         self.surface = create_board()
         self.HOST = str(Communication().client_multicast_communication())
         print(self.HOST)
