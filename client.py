@@ -81,7 +81,7 @@ class Player:
             elif data[0] == '4':
                 print("Get message type : " + data[0])
                 if data[1] == 'True':
-                    self.create_thread(Player)
+                    self.create_thread(Player().__init__())
                     self.running = False
                     break
 
