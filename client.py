@@ -83,7 +83,9 @@ class Player:
                 if data[1] == 'True':
                     # self.create_thread(Player)
                     print("Tworze nowego gracza")
-                    self.resetup()
+                    threading.Thread(target=Player, args=()).start()
+                    self.running = False
+                    break
 
 
     def game(self):  # zmienic na play
