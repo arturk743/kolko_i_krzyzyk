@@ -168,6 +168,8 @@ def create_board():
     os.environ['SDL_VIDEO_WINDOW_POS'] = '850,100'
     surface = pygame.display.set_mode((600, 700))
     surface.fill((255, 255, 255))
+    pygame.display.flip()
+    surface.fill((255, 255, 255))
     pygame.init()
     pygame.display.set_caption('Tic-tac-toe')
     return surface
