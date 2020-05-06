@@ -45,13 +45,7 @@ class Player:
 
     def receive_data(self):
         while True:
-            try:
-                data = self.sock.recv(1024).decode()  # receive data from the server, it is a blocking method
-            except OSError as e:
-                print(e.strerror)
-                break
-                # self.resetup()
-                # continue
+            data = self.sock.recv(1024).decode()  # receive data from the server, it is a blocking method
             print(data)
             data = data.split('-')
             if data[0] == '1':
