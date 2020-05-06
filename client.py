@@ -19,6 +19,14 @@ class Player:
     try_again_opponent = False
 
     def __init__(self):
+        while True:
+            self.setup()
+            if not self.repeat:
+                break
+
+    def setup(self):
+        self.repeat = False
+        self.running = True
         self.turn = False
         self.surface = create_board()
         self.HOST = str(Communication().client_multicast_communication())
@@ -26,16 +34,6 @@ class Player:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((self.HOST, self.PORT))
         self.create_thread(self.receive_data)
-        self.game()
-
-    def resetup(self):
-        self.turn = False
-        self.surface = create_board()
-        self.HOST = str(Communication().client_multicast_communication())
-        print(self.HOST)
-        self.sock.close()
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.connect((self.HOST, self.PORT))
         self.game()
 
     def create_thread(self, target):
@@ -81,9 +79,8 @@ class Player:
             elif data[0] == '4':
                 print("Get message type : " + data[0])
                 if data[1] == 'True':
-                    # self.create_thread(Player)
                     print("Tworze nowego gracza")
-                    threading.Thread(target=Player, args=()).start()
+                    self.repeat = True
                     self.running = False
                     break
 
