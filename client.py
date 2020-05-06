@@ -126,6 +126,7 @@ class Player:
             self.button("EXIT", 360, 625, 150, 50, (255, 100, 255), (255, 0, 255), "exit_game")
 
             pygame.display.flip()
+        print("Koniec gry")
 
     def button(self, msg, x, y, width, height, inactive_color, active_color, action=None):
         mouse = pygame.mouse.get_pos()
