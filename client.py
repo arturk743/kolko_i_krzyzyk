@@ -22,6 +22,7 @@ class Player:
         while True:
             self.setup()
             if not self.repeat:
+                pygame.display.quit()
                 pygame.quit()
                 break
 
