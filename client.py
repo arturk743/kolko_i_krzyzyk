@@ -49,8 +49,9 @@ class Player:
                 data = self.sock.recv(1024).decode()  # receive data from the server, it is a blocking method
             except OSError as e:
                 print(e.strerror)
-                self.resetup()
-                continue
+                break
+                # self.resetup()
+                # continue
             print(data)
             data = data.split('-')
             if data[0] == '1':
