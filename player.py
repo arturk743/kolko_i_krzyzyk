@@ -42,13 +42,15 @@ class Player:
     def receive_data(self):
         while True:
             data = self.sock.recv(RECEIVE_BUFF).decode()  # receive data from the server, it is a blocking method
+
             if len(data) == 0:
                 print("Tworze nowego gracza")
                 self.repeat = True
                 self.running = False
                 break
-            print(data)
+
             data = data.split('-')
+
             if data[0] == '1':
                 print("Get message type : " + data[0])
                 self.player = data[1]
@@ -56,6 +58,7 @@ class Player:
                     self.turn = True
                 else:
                     self.turn = False
+
             elif data[0] == '2':
                 print("Get message type : " + data[0])
                 x, y = int(data[1]), int(data[2])
@@ -68,6 +71,7 @@ class Player:
                         self.grid.set_cell_value(x, y, 'X')
                     else:
                         self.grid.set_cell_value(x, y, 'O')
+
             elif data[0] == '3':
                 print("Get message type : " + data[0])
                 if data[1]:
@@ -75,6 +79,7 @@ class Player:
                     self.grid.clear_grid()
                 else:
                     print("Koniec gry")
+
             elif data[0] == '4':
                 print("Get message type : " + data[0])
                 if data[1] == 'True':
@@ -83,25 +88,30 @@ class Player:
                     self.running = False
                     break
 
-
-    def game(self):  # zmienic na play
-
+    def game(self):
         clock = pygame.time.Clock()  # limit and track fps
+
         while self.running:
             clock.tick(20)
+
             for event in pygame.event.get():
+
                 if event.type == pygame.QUIT:
                     self.sock.shutdown(socket.SHUT_RDWR)
                     self.sock.close()
                     self.running = False
+
                 if event.type == pygame.MOUSEBUTTONDOWN and not self.grid.game_over:
+
                     if pygame.mouse.get_pressed()[0]:
+
                         if self.turn and not self.grid.game_over:
                             pos = pygame.mouse.get_pos()
                             cellX, cellY = pos[0] // 200, pos[1] // 200
                             if cellX > 2 or cellY > 2:
                                 continue
                             self.grid.get_mouse(cellX, cellY, self.player)
+
                             if self.grid.game_over:
                                 self.playing = 'False'
                             send_data = '{}-{}-{}-{}-{}'.format('2', cellX, cellY, 'yourturn', self.playing).encode()
@@ -113,18 +123,17 @@ class Player:
                         send_data = '{}-{}'.format('3', 'True').encode()
                         self.sock.send(send_data)
                     elif event.key == pygame.K_ESCAPE:
-                        # running = False
                         self.sock.close()
                         exit(10)
 
             self.surface.fill((255, 255, 255))
-
             self.grid.draw(self.surface)
 
             self.button("TRY AGAIN!", 90, 625, 150, 50, (255, 100, 255), (255, 0, 255), "restart")
             self.button("EXIT", 360, 625, 150, 50, (255, 100, 255), (255, 0, 255), "exit_game")
 
             pygame.display.flip()
+
         self.sock.close()
         print("Koniec gry")
 
@@ -140,11 +149,12 @@ class Player:
                 self.sock.send(send_data)
             elif click[0] == 1 and action == "exit_game":
                 self.exit_game()
+
         else:
             pygame.draw.rect(self.surface, inactive_color, (x, y, width, height))
 
         smallText = pygame.font.Font(None, 25)
-        textSurf, textRect = self.text_objects(msg, smallText)
+        textSurf, textRect = text_objects(msg, smallText)
         textRect.center = ((x + (width / 2)), (y + (height / 2)))
         self.surface.blit(textSurf, textRect)
 
@@ -152,9 +162,9 @@ class Player:
         self.sock.close()
         exit(10)
 
-    def text_objects(self, text, font):
-        textSurface = font.render(text, True, (0, 0, 0))
-        return textSurface, textSurface.get_rect()
+def text_objects(text, font):
+    textSurface = font.render(text, True, (0, 0, 0))
+    return textSurface, textSurface.get_rect()
 
 
 def create_board():
@@ -168,4 +178,3 @@ def create_board():
 
 if __name__ == "__main__":
     player = Player()
-
