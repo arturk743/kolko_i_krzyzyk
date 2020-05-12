@@ -1,4 +1,5 @@
 import socket
+import syslog
 import traceback
 
 RECEIVE_BUFF = 1024
@@ -31,6 +32,7 @@ def server_game_communication(connection1, connection2):
             connection1.send(data)
             print("Send data to 1 : " + data.decode())
         except:
+            syslog.syslog("Player 1 has closed connection.")
             print("Exception peer close connection")
             connection2.send(ERROR_DATA)
             close_connections(connection1, connection2)
@@ -39,6 +41,7 @@ def server_game_communication(connection1, connection2):
 
         data = connection1.recv(RECEIVE_BUFF)
         if len(data) == 0:
+            syslog.syslog("Player 1 has closed connection.")
             print("Exception peer close connection")
             connection2.send(ERROR_DATA)
             close_connections(connection1, connection2)
@@ -50,6 +53,7 @@ def server_game_communication(connection1, connection2):
             connection2.send(data)
             print("Send data to 2 : " + data.decode())
         except:
+            syslog.syslog("Player 1 has closed connection.")
             print("Exception peer close connection")
             connection1.send(ERROR_DATA)
             close_connections(connection1, connection2)
@@ -58,6 +62,7 @@ def server_game_communication(connection1, connection2):
 
         data = connection2.recv(RECEIVE_BUFF)
         if len(data) == 0:
+            syslog.syslog("Player 1 has closed connection.")
             print("Exception peer close connection")
             connection1.send(ERROR_DATA)
             close_connections(connection1, connection2)

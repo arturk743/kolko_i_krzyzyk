@@ -1,5 +1,6 @@
 import os
 import sys
+import syslog
 
 from daemon import daemon
 
@@ -12,10 +13,12 @@ def stop():
     pid = int(file.read())
     os.kill(pid, 9)
     print("Stop")
+    syslog.syslog("Server has been stopped.")
 
 
 def start():
     print("Start")
+    syslog.syslog("Server has been started.")
     with daemon.DaemonContext():
         open(WORKDIR + "/createDaemon.log", "w").write(str(os.getpid()) + "\n")
         server = Server()
