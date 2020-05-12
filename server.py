@@ -11,21 +11,21 @@ PORT = 5008
 class Server:
 
     def __init__(self):
-        create_thread2(Multicast().server_communication)
+        create_thread_experimental(Multicast().server_communication)
         self.sock = ucast_communication.create_listen_socket(HOST, PORT)
         while True:
             self.waiting_for_connection()
         self.sock.close()
 
     def waiting_for_connection(self):
-        conn1, addr1 = self.sock.accept()  # wait for a connection, it is a blocking method
+        conn1, addr1 = self.sock.accept()
         print('client1 is connected')
         ucast_communication.send_config_parameters_player1(conn1)
-        conn2, addr1 = self.sock.accept()  # wait for a connection, it is a blocking method
+        conn2, addr1 = self.sock.accept()
         print('client2 is connected')
         ucast_communication.send_config_parameters_player2(conn2)
         print('Creating thread')
-        create_thread(ucast_communication.server_game_communication, conn1, conn2)
+        create_thread_experimental(ucast_communication.server_game_communication, conn1, conn2)
         syslog.syslog("Creating thread for 2 players.")
 
 
@@ -46,10 +46,9 @@ def create_thread2(target):
     thread.start()
 
 
-""" sprobowac polaczyc dwa create_thread
-def create_thread(target, *arguments):
+def create_thread_experimental(target, *arguments):
     try:
-        thread = threading.Thread(target=target, args=(*arguments))
+        thread = threading.Thread(target=target, args=arguments)
         thread.daemon = True
         thread.start()
 
@@ -57,6 +56,6 @@ def create_thread(target, *arguments):
         syslog.syslog(syslog.LOG_ERR,
                       "Error creating thread")
 
-"""
+
 if __name__ == "__main__":
     server = Server()
