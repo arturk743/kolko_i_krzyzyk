@@ -1,9 +1,10 @@
+import socket
 import syslog
 import threading
 from communication.multicast import Multicast
 import communication.unicast as ucast_communication
 
-HOST = '0.0.0.0'
+HOST = socket.gethostbyname("server")
 PORT = 5008
 
 
