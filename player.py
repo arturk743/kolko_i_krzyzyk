@@ -133,7 +133,6 @@ class Player:
 
             pygame.display.flip()
 
-        self.sock.shutdown(socket.SHUT_RDWR)
         self.sock.close()
         print("Koniec gry")
 
@@ -159,8 +158,8 @@ class Player:
         self.surface.blit(textSurf, textRect)
 
     def exit_game(self):
-        self.running = False
-        self.repeat = False
+        self.sock.close()
+        exit(10)
 
 
 def text_objects(text, font):
