@@ -25,6 +25,7 @@ class Server:
         ucast_communication.send_config_parameters_player2(conn2)
         print('Creating thread')
         create_thread(ucast_communication.server_game_communication, conn1, conn2)
+        syslog.syslog("Creating thread for 2 players.")
 
 
 def create_thread(target, connection1, connection2):
