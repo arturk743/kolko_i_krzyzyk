@@ -3,7 +3,7 @@ import sys
 
 from daemon import daemon
 
-from true_server import Server
+from server import Server
 
 WORKDIR = os.getcwd()
 
