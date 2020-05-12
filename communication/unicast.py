@@ -53,7 +53,7 @@ def server_game_communication(connection1, connection2):
             connection2.send(data)
             print("Send data to 2 : " + data.decode())
         except:
-            syslog.syslog("Player 1 has closed connection.")
+            syslog.syslog("Player 2 has closed connection.")
             print("Exception peer close connection")
             connection1.send(ERROR_DATA)
             close_connections(connection1, connection2)
@@ -62,7 +62,7 @@ def server_game_communication(connection1, connection2):
 
         data = connection2.recv(RECEIVE_BUFF)
         if len(data) == 0:
-            syslog.syslog("Player 1 has closed connection.")
+            syslog.syslog("Player 2 has closed connection.")
             print("Exception peer close connection")
             connection1.send(ERROR_DATA)
             close_connections(connection1, connection2)
