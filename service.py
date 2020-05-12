@@ -18,7 +18,7 @@ def stop():
 
 def start():
     print("Start")
-    # syslog.syslog("Server has been started.")
+    syslog.syslog("Server has been started.")
     with daemon.DaemonContext():
         open(WORKDIR + "/createDaemon.log", "w").write(str(os.getpid()) + "\n")
         server = Server()
