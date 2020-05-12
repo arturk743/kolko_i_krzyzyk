@@ -43,6 +43,8 @@ def create_thread2(target):
     thread = threading.Thread(target=target, args=())
     thread.daemon = True
     thread.start()
+
+
 """ sprobowac polaczyc dwa create_thread
 def create_thread(target, *arguments):
     try:
