@@ -119,6 +119,7 @@ class Player:
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE and self.grid.game_over:
+                        self.grid.game_over = False
                         send_data = '{}-{}'.format('3', 'True').encode()
                         self.sock.send(send_data)
                     elif event.key == pygame.K_ESCAPE:
