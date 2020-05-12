@@ -133,6 +133,7 @@ class Player:
 
             pygame.display.flip()
 
+        self.sock.shutdown(socket.SHUT_RDWR)
         self.sock.close()
         print("Koniec gry")
 
