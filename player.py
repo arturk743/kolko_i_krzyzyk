@@ -97,7 +97,6 @@ class Player:
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
-                    self.sock.shutdown(socket.SHUT_RDWR)
                     self.sock.close()
                     self.running = False
 
@@ -159,8 +158,9 @@ class Player:
         self.surface.blit(textSurf, textRect)
 
     def exit_game(self):
-        self.sock.close()
-        exit(10)
+        self.running = False
+        self.repeat = False
+
 
 def text_objects(text, font):
     textSurface = font.render(text, True, (0, 0, 0))
