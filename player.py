@@ -6,6 +6,9 @@ import socket
 from communication.multicast import Multicast, RECEIVE_BUFF
 import communication.unicast as ucast_communication
 
+light_blue_sky = (135, 206, 235)
+deep_blue_sky = (0, 191, 255)
+
 
 class Player:
     PORT = 5008
@@ -129,8 +132,8 @@ class Player:
             self.surface.fill((255, 255, 255))
             self.grid.draw(self.surface)
 
-            self.button("TRY AGAIN!", 90, 625, 150, 50, (255, 100, 255), (255, 0, 255), "restart")
-            self.button("EXIT", 360, 625, 150, 50, (255, 100, 255), (255, 0, 255), "exit_game")
+            self.button("TRY AGAIN!", 90, 625, 150, 50, light_blue_sky, deep_blue_sky, "restart")
+            self.button("EXIT", 360, 625, 150, 50, light_blue_sky, deep_blue_sky, "exit_game")
 
             pygame.display.flip()
 
